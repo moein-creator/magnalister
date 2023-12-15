@@ -1,0 +1,19 @@
+<?php if ($block->getMagnalisterOrder()->get('special')) { ?>
+
+    <section class="admin__page-section order-view-billing-shipping">
+        <div class="admin__page-section-title">
+            <span class="title">magnalister Order Information <img src="<?php echo $block->marketplaceOrderLogo() ?>" alt="marketplace order logo"></span>
+        </div>
+        <div class="admin__page-section-content">
+            <div class="admin__page-section-item">
+                <div class="admin__page-section-item-content">
+                    <?php echo $block->magnalisterOrderData() ?>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <?php include 'magnalister_amazon_order_shipping_data.php'; ?>
+    <?php include 'magnalister_otto_order_return_data.php'; ?>
+
+<?php } ?>

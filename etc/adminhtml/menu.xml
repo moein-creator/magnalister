@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Redgecko_Magnalister::menu"
+             title="magnalister" module="Redgecko_Magnalister"
+             sortOrder="100"
+             resource="Magento_Backend::content"
+        />
+        <!-- START: new node -->
+        <add id="Redgecko_Magnalister::menu_item"
+             title="magnalister" module="Redgecko_Magnalister"
+             sortOrder="01" parent="Redgecko_Magnalister::menu"
+             action="magnalister/backend/index"
+             resource="Redgecko_Magnalister::menu_item"
+        />
+        <!-- END:   new node -->
+    </menu>
+</config>
