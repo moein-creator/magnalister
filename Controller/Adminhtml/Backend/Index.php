@@ -6,7 +6,6 @@ namespace Redgecko\Magnalister\Controller\Adminhtml\Backend;
 
 use ML;
 use MLSetting;
-use MLRequest;
 
 class Index extends \Magento\Backend\App\Action
 {
@@ -29,8 +28,8 @@ class Index extends \Magento\Backend\App\Action
 
 
         $appPath = $dir->getDir('Redgecko_Magnalister');
-        if (file_exists($appPath . '/../MagnalisterLibrary/Core/ML.php')) {
-            $_PluginPath = $appPath . '/../MagnalisterLibrary/Core/ML.php';
+        if (file_exists($appPath . '/../magnalisterlibrary/Core/ML.php')) {
+            $_PluginPath = $appPath . '/../magnalisterlibrary/Core/ML.php';
         }
 
         if (file_exists($_PluginPath)) {

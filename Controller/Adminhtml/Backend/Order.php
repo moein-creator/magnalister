@@ -6,7 +6,6 @@ use ML;
 use MLSetting;
 use MLDatabase;
 use MLFilesystem;
-use MLRequest;
 
 class Order extends \Magento\Backend\App\Action
 {
@@ -27,8 +26,8 @@ class Order extends \Magento\Backend\App\Action
         $dir = $objectManager->get('Magento\Framework\Module\Dir');
         /**  @var $dir \Magento\Framework\Module\Dir */
         $appPath = $dir->getDir('Redgecko_Magnalister');
-        if (file_exists($appPath . '/../MagnalisterLibrary/Core/ML.php')) {
-            $_PluginPath = $appPath . '/../MagnalisterLibrary/Core/ML.php';
+        if (file_exists($appPath . '/../magnalisterlibrary/Core/ML.php')) {
+            $_PluginPath = $appPath . '/../magnalisterlibrary/Core/ML.php';
         }
 
         if (file_exists($_PluginPath)) {

@@ -7,7 +7,6 @@ use Magento\Framework\View\Result\PageFactory;
 use ML;
 use MLHttp;
 use MLSetting;
-use MLRequest;
 
 class Index extends \Magento\Backend\App\Action {
     protected $_publicActions = ['index'];
@@ -42,10 +41,9 @@ class Index extends \Magento\Backend\App\Action {
             $dir = $objectManager->get('Magento\Framework\Module\Dir');
             /**  @var $dir \Magento\Framework\Module\Dir */
             $appPath = $dir->getDir('Redgecko_Magnalister');
-            if (file_exists($appPath.'/Lib/Core/ML.php')) {
-                $_PluginPath = $appPath.'/Lib/Core/ML.php';
+            if (file_exists($appPath.'/../magnalisterlibrary/Core/ML.php')) {
+                $_PluginPath = $appPath.'/../magnalisterlibrary/Core/ML.php';
             }
-            echo $_PluginPath;
             $debugPrint = '';
             if (file_exists($_PluginPath)) {
                 require_once($_PluginPath);
@@ -85,7 +83,7 @@ class Index extends \Magento\Backend\App\Action {
         }
 
 
-        return ' <!DOCTYPE html>            <html>                <head>                    <meta charset="utf-8">                    <title>magnalister Admin</title>                    <style>body { font: 12px/1.3em sans-serif; }</style>                    '.$MLcss.'                    '.$MLjs.'                </head>                <body class="'.$MLbodyClass.'">                    '.$output.'                    <pre>'.$debugPrint.'</pre>                 </body>            </html>        ';
+        return ' <!DOCTYPE html>            <html>                <head>                    <meta charset="utf-8">                    <title>magnalister Admin</title>                                       '.$MLcss.'                    '.$MLjs.'                </head>                <body class="'.$MLbodyClass.'">                    '.$output.'                    <pre>'.$debugPrint.'</pre>                 </body>            </html>        ';
 
         //return ' ' . $output . '<pre>' . $debugPrint . '</pre>';
     }

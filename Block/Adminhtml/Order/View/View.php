@@ -13,8 +13,8 @@ class View extends \Magento\Backend\Block\Template
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $dir = $objectManager->get('Magento\Framework\Module\Dir');
         $appPath = $dir->getDir('Redgecko_Magnalister');
-        if (file_exists($appPath . '/../MagnalisterLibrary/Core/ML.php')) {
-            $_PluginPath = $appPath . '/../MagnalisterLibrary/Core/ML.php';
+        if (file_exists($appPath . '/../magnalisterlibrary/Core/ML.php')) {
+            $_PluginPath = $appPath . '/../magnalisterlibrary/Core/ML.php';
         }
         require_once($_PluginPath);
         $_order = $this->getRequest()->getParam('order_id');

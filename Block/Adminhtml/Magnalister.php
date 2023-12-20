@@ -6,7 +6,6 @@ use MLFilesystem;
 use MLHttp;
 use MLOrder;
 use MLSetting;
-use MLRequest;
 
 
 class Magnalister extends \Magento\Backend\Block\Template
@@ -33,15 +32,15 @@ class Magnalister extends \Magento\Backend\Block\Template
 
 
         $appPath = $dir->getDir('Redgecko_Magnalister');
-        if (file_exists($appPath . '/../MagnalisterLibrary/Core/ML.php')) {
-            $_PluginPath = $appPath . '/../MagnalisterLibrary/Core/ML.php';
+        if (file_exists($appPath . '/../magnalisterlibrary/Core/ML.php')) {
+            $_PluginPath = $appPath . '/../magnalisterlibrary/Core/ML.php';
         }
         $debugPrint = '';
         if (file_exists($_PluginPath)) {
             require_once($_PluginPath);
             $output = ML::gi()->run();
             /* @var Mage_Adminhtml_Block_Page_Head $oHead */
-         //   $oHead=$this->getLayout()->getBlock('head');
+            //   $oHead=$this->getLayout()->getBlock('head');
             $sClientVersion = MLSetting::gi()->get('sClientBuild');
             $MLjs = '';
 

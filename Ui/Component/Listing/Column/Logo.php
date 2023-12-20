@@ -70,10 +70,10 @@ class Logo extends Column
     }
 
     private function getOrderLogo(string $OrderId) {
-        $_PluginPath = dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'MagnalisterLibrary' . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'ML.php';
+        $_PluginPath = dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'magnalisterlibrary' . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'ML.php';
 
-        if (!file_exists($_PluginPath) && file_exists(dirname(__FILE__) . '/../../../../Lib/Core/ML.php')) {
-            $_PluginPath = dirname(__FILE__) . '/../../../../Lib/Core/ML.php';
+        if (!file_exists($_PluginPath) && file_exists(dirname(__FILE__) . '/../../../../../magnalisterlibrary/Core/ML.php')) {
+            $_PluginPath = dirname(__FILE__) . '/../../../../../magnalisterlibrary/Core/ML.php';
         }
 
         require_once $_PluginPath;

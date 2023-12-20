@@ -7,7 +7,6 @@ namespace Redgecko\Magnalister\Controller\Adminhtml\Backend;
 use ML;
 use MLFilesystem;
 use MLSetting;
-use MLRequest;
 
 class Cache extends \Magento\Backend\App\Action
 {
@@ -26,8 +25,8 @@ class Cache extends \Magento\Backend\App\Action
         $dir = $objectManager->get('Magento\Framework\Module\Dir');
         /**  @var $dir \Magento\Framework\Module\Dir */
         $appPath = $dir->getDir('Redgecko_Magnalister');
-        if (file_exists($appPath . '/../MagnalisterLibrary/Core/ML.php')) {
-            $_PluginPath = $appPath . '/../MagnalisterLibrary/Core/ML.php';
+        if (file_exists($appPath . '/../magnalisterlibrary/Core/ML.php')) {
+            $_PluginPath = $appPath . '/../magnalisterlibrary/Core/ML.php';
         }
 
         if (file_exists($_PluginPath)) {
