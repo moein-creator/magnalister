@@ -5,10 +5,13 @@
    "version": "2.0.0",
    "homepage": "",
    "license": "Apache-2.0",
+   "require": {
+      "redgecko/magnalisterlibrary": "2.0.0"
+   },
    "authors": [
       {
          "name": "magnalister",
-         "email": ""
+         "email": "support@magnalister.com"
       }
    ],
    "autoload": {
