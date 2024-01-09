@@ -6,7 +6,7 @@
    "homepage": "",
    "license": "Apache-2.0",
    "require": {
-      "redgecko/magnalisterlibrary": "2.0.0"
+      "redgecko/magnalisterlibrary": "3.0.0"
    },
    "authors": [
       {
