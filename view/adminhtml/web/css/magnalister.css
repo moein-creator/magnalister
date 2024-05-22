@@ -846,7 +846,7 @@ table.matching tbody.options tr.noItem td {
 table.matching tbody.options tr.noItem td.title {
 	color: #2153A2;
 	border-left: 2px solid #00f;
-	border--right: 1px solid #000000;
+	border-right: 1px solid #000000;
 }
 table.matching tbody.options td.lowestprice,
 table.matching tbody.options td.productGroup {
@@ -2224,6 +2224,16 @@ body.magna div.magnaTabs2 ul li a:hover {
 	text-decoration: none;
 	font-weight: bold;
 	color: #000000;
+	text-shadow: 1px 0 0 #000;
+}
+body.magna div.magnaTabs2 ul li.selected a,
+body.magna div.magnaTabs2 ul li a::after {
+	display: block;
+	content:attr(id);
+	font-weight: bold;
+	visibility: hidden;
+	overflow: hidden;
+	height: 0px;
 }
 body.magna div.magnaTabs2 ul li.selected a,
 body.magna div.magnaTabs2 ul li.selected span {

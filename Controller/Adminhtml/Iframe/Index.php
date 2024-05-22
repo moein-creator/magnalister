@@ -1,14 +1,19 @@
 <?php
 namespace Redgecko\Magnalister\Controller\Adminhtml\Iframe;
 
+use Exception;
+use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\ObjectManager;
+use Magento\Framework\Module\Dir;
 use Magento\Framework\View\Result\PageFactory;
 use ML;
 use MLHttp;
+use MLMessage;
 use MLSetting;
+use Throwable;
 
-class Index extends \Magento\Backend\App\Action {
+class Index extends Action {
     protected $_publicActions = ['index'];
     protected $resultPageFactory = false;
 
@@ -30,7 +35,7 @@ class Index extends \Magento\Backend\App\Action {
      */
     public function DisplayMagnalister() {
         try {
-            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            $objectManager = ObjectManager::getInstance();
             $productMetadata = $objectManager->get('Magento\Framework\App\ProductMetadataInterface');
             /**  @var $productMetadata Magento\Framework\App\ProductMetadataInterface */
             $sMagentoReversion = $productMetadata->getEdition();
@@ -39,39 +44,52 @@ class Index extends \Magento\Backend\App\Action {
             define("MLMAGENTOVERSION", $productMetadata->getVersion());
 
             $dir = $objectManager->get('Magento\Framework\Module\Dir');
-            /**  @var $dir \Magento\Framework\Module\Dir */
+            /**  @var $dir Dir */
             $appPath = $dir->getDir('Redgecko_Magnalister');
-            if (file_exists($appPath.'/../magnalisterlibrary/Core/ML.php')) {
-                $_PluginPath = $appPath.'/../magnalisterlibrary/Core/ML.php';
+            if (file_exists($appPath.'/../MagnalisterLibrary/Core/ML.php')) {
+                $_PluginPath = $appPath.'/../MagnalisterLibrary/Core/ML.php';
             }
             $debugPrint = '';
             if (file_exists($_PluginPath)) {
                 require_once($_PluginPath);
                 $output = ML::gi()->run();
                 $sClientVersion = MLSetting::gi()->get('sClientBuild');
-                $MLcss = '';
-                $MLjs = '';
-                foreach (array_unique(MLSetting::gi()->get('aCss')) as $sFile) {//echo $sFile;
-                    $MLcss .= '
-                    <link rel="stylesheet" type="text/css" href="'.sprintf(MLHttp::gi()->getResourceUrl('css_'.$sFile), $sClientVersion).'">';
+                $MLCss = '';
+                $MLJs = '';
+                foreach (array_unique(MLSetting::gi()->get('aCss')) as $sFile) {
+                    try {
+                        $MLCss .= '
+                        <link rel="stylesheet" type="text/css" href="' . MLHttp::gi()->getResourceUrl('css_' . $sFile) . '?' . $sClientVersion . '">';
+                    } catch (Exception $ex) {
+                        if (MLSetting::gi()->blDebug) {
+                            MLMessage::gi()->addDebug($ex);
+                        }
+                    }
                 }
 
                 foreach (array_unique(MLSetting::gi()->get('aJs')) as $sFile) {
-                    $MLjs .= '
-                    <script src="'.sprintf(MLHttp::gi()->getResourceUrl('js_'.$sFile), $sClientVersion).'" type="text/javascript"></script>';
+                    try {
+                        $MLJs .= '
+                    <script src="' . MLHttp::gi()->getResourceUrl('js_' . $sFile) . '?' . $sClientVersion . '" type="text/javascript"></script>';
+                    } catch (Exception $ex) {
+                        if (MLSetting::gi()->blDebug) {
+                            MLMessage::gi()->addDebug($ex);
+                        }
+                    }
                 }
-                $MLbodyClass = implode(' ', MLSetting::gi()->get('aBodyClasses'));
+                $MLBodyClass = implode(' ', MLSetting::gi()->get('aBodyClasses'));
 
             }
             header('Content-Type: text/html; charset=utf-8');
-        } catch (\Throwable $ex) {
+        } catch (Throwable $ex) {
+            $blShowError = isset(ObjectManager::getInstance()->get('\Magento\Framework\App\RequestInterface')->getParams()['ml-debug']) || (class_exists('MLSetting') && MLSetting::gi()->blDebug);
             return ('<!DOCTYPE html>
             <html>
                 <head>
                     <meta charset="utf-8">
                     <title>magnalister exception</title>
                 </head>
-                <body>'.(isset(ObjectManager::getInstance()->get('\Magento\Framework\App\RequestInterface')->getParams()['ml-debug']) ?
+                <body>' . ($blShowError ?
                     $ex->getMessage().'<br>'.
                     $ex->getFile().'<br>'.
                     $ex->getLine().'<pre>'.
@@ -83,7 +101,7 @@ class Index extends \Magento\Backend\App\Action {
         }
 
 
-        return ' <!DOCTYPE html>            <html>                <head>                    <meta charset="utf-8">                    <title>magnalister Admin</title>                                       '.$MLcss.'                    '.$MLjs.'                </head>                <body class="'.$MLbodyClass.'">                    '.$output.'                    <pre>'.$debugPrint.'</pre>                 </body>            </html>        ';
+        return ' <!DOCTYPE html>            <html>                <head>                    <meta charset="utf-8">                    <title>magnalister Admin</title>                                       ' . $MLCss . '                    ' . $MLJs . '                </head>                <body class="' . $MLBodyClass . '">                    ' . $output . '                    <pre>' . $debugPrint . '</pre>                 </body>            </html>        ';
 
         //return ' ' . $output . '<pre>' . $debugPrint . '</pre>';
     }
@@ -94,7 +112,7 @@ class Index extends \Magento\Backend\App\Action {
 
 
     private function prepareWritablePaths() {
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $objectManager = ObjectManager::getInstance();
         $directory = $objectManager->get('Magento\Framework\App\Filesystem\DirectoryList');
 
         $sWritablePath = $directory->getPath('cache').DIRECTORY_SEPARATOR.'magnalister'.DIRECTORY_SEPARATOR;

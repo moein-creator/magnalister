@@ -30,8 +30,8 @@ class Index extends \Magento\Framework\App\Action\Action
 
 
         $appPath = $dir->getDir('Redgecko_Magnalister');
-        if (file_exists($appPath . '/../magnalisterlibrary/Core/ML.php')) {
-            $_PluginPath = $appPath . '/../magnalisterlibrary/Core/ML.php';
+        if (file_exists($appPath . '/../MagnalisterLibrary/Core/ML.php')) {
+            $_PluginPath = $appPath . '/../MagnalisterLibrary/Core/ML.php';
         }
         $oRequest = $objectManager->create(\Magento\Framework\App\RequestInterface::class);
         $debugPrint = '';

@@ -53,15 +53,29 @@ class Logo extends Column
      */
     public function prepareDataSource(array $dataSource)
     {
+        $_PluginPath = dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'MagnalisterLibrary' . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'ML.php';
+        if (!file_exists($_PluginPath) && file_exists(dirname(__FILE__) . '/../../../../../MagnalisterLibrary/Core/ML.php')) {
+            $_PluginPath = dirname(__FILE__) . '/../../../../../MagnalisterLibrary/Core/ML.php';
+        }
+        require_once $_PluginPath;
+        if (!ML::isInstalled()) {
+            throw new Exception('magnalister is not installed');
+        }
+        ML::setFastLoad(true);
+        ML::gi();//to load MLMagento2Alias
         if (isset($dataSource['data']['items'])) {
-            foreach ($dataSource['data']['items'] as & $item) {
-                if($item[$this->getData('name')] != '') {
-                    $item[$this->getData('name') . '_src'] = $this->getOrderLogo($item['entity_id']);
-                    $item[$this->getData('name') . '_alt'] = $item[$this->getData('name')].'_orderview';
-                    $item[$this->getData('name') . '_link'] = $this->getOrderLogo($item['entity_id']);
-                    $item[$this->getData('name') . '_orig_src'] = $this->getOrderLogo($item['entity_id']);
+            $sName = $this->getData('name');
+
+            foreach ($dataSource['data']['items'] as &$item) {
+                $oOrder = MLOrder::factory()->set('current_orders_id', $item['entity_id']);
+                if($oOrder->exists()) {
+                    $sLogo = $oOrder->getLogo();
+                    $item[$sName . '_src'] = $sLogo;
+                    $item[$sName . '_alt'] = $oOrder->get('platform').'_orderview';
+                    $item[$sName . '_link'] = $sLogo;
+                    $item[$sName . '_orig_src'] = $sLogo;
                 } else {
-                    $item[$this->getData('name')] = false;
+                    $item[$sName] = false;
                 }
             }
         }
@@ -69,32 +83,4 @@ class Logo extends Column
         return $dataSource;
     }
 
-    private function getOrderLogo(string $OrderId) {
-        $_PluginPath = dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'magnalisterlibrary' . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'ML.php';
-
-        if (!file_exists($_PluginPath) && file_exists(dirname(__FILE__) . '/../../../../../magnalisterlibrary/Core/ML.php')) {
-            $_PluginPath = dirname(__FILE__) . '/../../../../../magnalisterlibrary/Core/ML.php';
-        }
-
-        require_once $_PluginPath;
-
-        MLOrder::factory()->set('current_orders_id', $OrderId);
-        if (!ML::isInstalled()) {
-            throw new Exception('magnalister is not installed');
-        }
-
-        $connection = MLMagento2Alias::getMagentoObjectManager()
-            ->create(\Magento\Framework\App\ResourceConnection::class)
-            ->getConnection(\Magento\Framework\App\ResourceConnection::DEFAULT_CONNECTION);
-        $tblSalesOrder = $connection->getTableName('sales_order_status_state');
-        $hasTransactionId = $connection->fetchRow('SELECT COUNT(*) FROM `magnalister_orders` WHERE `current_orders_id` ="'.$OrderId.'"');
-
-        if (!empty($hasTransactionId)) {
-            ML::setFastLoad(true);
-            $oOrder = MLOrder::factory()->set('current_orders_id', $OrderId);
-            $sTitleHtml = $oOrder->getLogo();
-        }
-
-        return $sTitleHtml;
-    }
 }

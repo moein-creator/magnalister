@@ -21,13 +21,13 @@ class Collection extends OrderGridCollection
     ) {
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $mainTable, $resourceModel);
     }
-    protected function _renderFiltersBefore() {
-        $this->getSelect()->joinLeft(
-            ['magnalister_orders' => 'magnalister_orders'],
-            'main_table.entity_id = magnalister_orders.orders_id',
-            ['platform']
-        );
-
-        parent::_renderFiltersBefore();
-    }
+//    protected function _renderFiltersBefore() {
+//        $this->getSelect()->joinLeft(
+//            ['magnalister_orders' => 'magnalister_orders'],
+//            'main_table.entity_id = magnalister_orders.orders_id',
+//            ['platform']
+//        );
+//
+//        parent::_renderFiltersBefore();
+//    }
 }
