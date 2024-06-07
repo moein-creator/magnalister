@@ -2,11 +2,11 @@
    "name": "redgecko/magnalister",
    "type": "magento2-module",
    "description": "magnalister",
-   "version": "3.0.0",
+   "version": "3.0.1",
    "homepage": "",
    "license": "Apache-2.0",
    "require": {
-      "redgecko/magnalisterlibrary": "3.0.0"
+      "redgecko/magnalisterlibrary": "3.0.1"
    },
    "authors": [
       {

@@ -53,9 +53,10 @@ class Logo extends Column
      */
     public function prepareDataSource(array $dataSource)
     {
-        $_PluginPath = dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'MagnalisterLibrary' . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'ML.php';
-        if (!file_exists($_PluginPath) && file_exists(dirname(__FILE__) . '/../../../../../MagnalisterLibrary/Core/ML.php')) {
+        if (file_exists(dirname(__FILE__) . '/../../../../../MagnalisterLibrary/Core/ML.php')) {
             $_PluginPath = dirname(__FILE__) . '/../../../../../MagnalisterLibrary/Core/ML.php';
+        }elseif (file_exists(dirname(__FILE__) . '/../../../../../magnalisterlibrary/Core/ML.php')){
+            $_PluginPath = dirname(__FILE__) . '/../../../../../magnalisterlibrary/Core/ML.php';
         }
         require_once $_PluginPath;
         if (!ML::isInstalled()) {

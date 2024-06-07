@@ -27,6 +27,8 @@ class Cache extends \Magento\Backend\App\Action
         $appPath = $dir->getDir('Redgecko_Magnalister');
         if (file_exists($appPath . '/../MagnalisterLibrary/Core/ML.php')) {
             $_PluginPath = $appPath . '/../MagnalisterLibrary/Core/ML.php';
+        }elseif (file_exists($appPath . '/../magnalisterlibrary/Core/ML.php')) {
+            $_PluginPath = $appPath . '/../magnalisterlibrary/Core/ML.php';
         }
 
         if (file_exists($_PluginPath)) {
